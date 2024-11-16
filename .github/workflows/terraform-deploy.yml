@@ -7,8 +7,34 @@ jobs:
     permissions:
       id-token: write
     steps:
-    - name: configure Aws Credentials
+    - name: Configure Aws Credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
         aws-region: eu-north-1
         role-to-assume: arn:aws:iam::222896848746:role/GithubActionsRole
+  terraform-check:
+    needs: [terraform-deploy]
+    runs-on: ubuntu-latest
+    name: Check Terraform file are formatted correctly
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: terraform fmt
+        uses: dflook/terraform-fmt-check@v1
+        with:
+          path: my-terraform-config
+  terraform-plan:
+    needs: [terraform-check]
+    runs-on: ubuntu-latest
+    name: Run terraform plan command
+    steps:
+      - name: plan
+        run: echo "terraform plan"
+  terraform-apply:
+    needs: [terraform-plan]
+    runs-on: ubuntu-latest
+    name: PRun terraform apply command
+    steps:
+      - name: plan
+        run: echo "terraform apply"
