@@ -4,6 +4,8 @@ on:
 jobs:
   terraform-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
     - name: configure Aws Credentials
       uses: aws-actions/configure-aws-credentials@v4
