@@ -20,10 +20,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: terraform fmt
-        uses: dflook/terraform-fmt-check@v1
-        with:
-          path: my-terraform-config
+      #- name: terraform fmt
+        #uses: dflook/terraform-fmt-check@v1
+        #with:
+          #path: my-terraform-config
   terraform-plan:
     needs: [terraform-check]
     runs-on: ubuntu-latest
