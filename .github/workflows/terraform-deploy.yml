@@ -29,6 +29,8 @@ jobs:
     runs-on: ubuntu-latest
     name: Run terraform plan command
     steps:
+      - name: run init
+        run: terraform init
       - name: run plan
         run: terraform plan
   terraform-apply:
