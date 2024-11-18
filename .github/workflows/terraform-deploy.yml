@@ -23,7 +23,7 @@ jobs:
       - name: terraform fmt
         uses: dflook/terraform-fmt-check@v1
         with:
-          path: my-terraform-config
+          path: backend.tf
   terraform-plan:
     needs: [terraform-check]
     runs-on: ubuntu-latest
