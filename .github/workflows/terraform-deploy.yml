@@ -19,21 +19,28 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: list files
-        run: ls
-      - name: current dir
-        run: pwd
-      - name: cd up
-        run: ls
       - name: terraform fmt
         uses: dflook/terraform-fmt-check@v1
         with:
           path: .
+      - name: Terraform Fmt
+        id: fmt
+        run: terraform fmt
+        working-directory: .
+ 
+      - name: Auto Commit Changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Terraform fmt"
+          file_pattern: "*.tf"
+          commit_user_name: "github-actions[bot]"
   terraform-plan:
     needs: [terraform-check]
     runs-on: ubuntu-latest
     name: Run terraform plan command
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: run init
         run: terraform init
       - name: run plan
