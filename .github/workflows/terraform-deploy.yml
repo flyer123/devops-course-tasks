@@ -17,6 +17,10 @@ jobs:
     runs-on: ubuntu-latest
     name: Check Terraform file are formatted correctly
     steps:
+      - name: list files
+        run: ls
+      - name: current dir
+        run: pwd
       - name: Checkout
         uses: actions/checkout@v4
 
