@@ -2,16 +2,6 @@ on:
   workflow_dispatch:
   push:
 jobs:
-  terraform-deploy:
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-    steps:
-    - name: Configure Aws Credentials
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        aws-region: eu-north-1
-        role-to-assume: arn:aws:iam::222896848746:role/GithubActionsRole
   terraform-check:
     needs: [terraform-deploy]
     runs-on: ubuntu-latest
@@ -33,7 +23,14 @@ jobs:
     needs: [terraform-check]
     runs-on: ubuntu-latest
     name: Run terraform plan command
+     permissions:
+      id-token: write
     steps:
+    - name: Configure Aws Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-region: eu-north-1
+        role-to-assume: arn:aws:iam::222896848746:role/GithubActionsRole
       - name: Checkout
         uses: actions/checkout@v4
       - name: run init
@@ -44,6 +41,13 @@ jobs:
     needs: [terraform-plan]
     runs-on: ubuntu-latest
     name: Run terraform apply command
+     permissions:
+      id-token: write
     steps:
+    - name: Configure Aws Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-region: eu-north-1
+        role-to-assume: arn:aws:iam::222896848746:role/GithubActionsRole
       - name: run apply
         run: terraform apply -auto-approve
