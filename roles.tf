@@ -21,3 +21,49 @@ resource "aws_iam_role" "GithubActionsRole" {
     tag-key = "tag-value"
   }
 }
+
+resource "aws_iam_role_policy_attachment" "role_policy_attachment_bridge" {
+      policy_arn = "arn:aws:iam::aws:policy/AmazonEventBridgeFullAccess"
+      role = "GithubActionsRole"
+    }
+
+  resource "aws_iam_role_policy_attachment" "role_policy_attachment_dynamodb" {
+      policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
+      role       = "GithubActionsRole"
+    }
+
+
+  resource "aws_iam_role_policy_attachment" "role_policy_attachment_ec2" {
+      policy_arn = "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
+      role       = "GithubActionsRole"
+    }
+
+
+  resource "aws_iam_role_policy_attachment" "role_policy_attachment_iam" {
+      policy_arn = "arn:aws:iam::aws:policy/IAMFullAccess"
+      role       = "GithubActionsRole"
+    }
+
+
+  resource "aws_iam_role_policy_attachment" "role_policy_attachment_route53" {
+      policy_arn = "arn:aws:iam::aws:policy/AmazonRoute53FullAccess"
+      role       = "GithubActionsRole"
+    }
+
+
+  resource "aws_iam_role_policy_attachment" "role_policy_attachment_s3" {
+      policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+      role       = "GithubActionsRole"
+    }
+
+
+  resource "aws_iam_role_policy_attachment" "role_policy_attachment_sqs" {
+      policy_arn = "arn:aws:iam::aws:policy/AmazonSQSFullAccess"
+      role       = "GithubActionsRole"
+    }
+
+
+  resource "aws_iam_role_policy_attachment" "role_policy_attachment_vpc" {
+      policy_arn = "arn:aws:iam::aws:policy/AmazonVPCFullAccess"
+      role       = "GithubActionsRole"
+    }
