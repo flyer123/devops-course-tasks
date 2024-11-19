@@ -50,5 +50,7 @@ jobs:
         role-to-assume: arn:aws:iam::222896848746:role/GithubActionsRole
     - name: Checkout
       uses: actions/checkout@v4
+    - name: init
+      run: terraform init -migrate-state
     - name: run apply
       run: terraform apply -auto-approve
