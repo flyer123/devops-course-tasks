@@ -48,5 +48,7 @@ jobs:
       with:
         aws-region: eu-north-1
         role-to-assume: arn:aws:iam::222896848746:role/GithubActionsRole
+    - name: Checkout
+      uses: actions/checkout@v4
     - name: run apply
       run: terraform apply -auto-approve
