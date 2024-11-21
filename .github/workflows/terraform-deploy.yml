@@ -32,3 +32,7 @@ jobs:
         run: terraform apply -auto-approve
       - name: state
         run: terraform state list
+      - name: refresh
+        run: terraform refresh
+      - name: show
+        run: terraform show
