@@ -75,5 +75,5 @@ resource "aws_iam_openid_connect_provider" "openidconnect" {
     "sts.amazonaws.com",
   ]
 
-  thumbprint_list = []
+  thumbprint_list = ["d89e3bd43d5d909b47a18977aa9d5ce36cee184c"]
 }
