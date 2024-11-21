@@ -69,7 +69,7 @@ resource "aws_iam_role_policy_attachment" "role_policy_attachment_vpc" {
 }
 
 resource "aws_iam_openid_connect_provider" "openidconnect" {
-  url = https://token.actions.githubusercontent.com
+  url = "https://token.actions.githubusercontent.com"
 
   client_id_list = [
     "sts.amazonaws.com",
