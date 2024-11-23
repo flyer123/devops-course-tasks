@@ -6,7 +6,7 @@ resource "aws_iam_openid_connect_provider" "openidconnect" {
     "sts.amazonaws.com",
   ]
 
-  thumbprint_list = ["d89e3bd43d5d909b47a18977aa9d5ce36cee184c"]
+  thumbprint_list = ["ffffffffffffffffffffffffffffffffffffffff"]
 }
 
 data "aws_iam_policy_document" "oidc" {
@@ -26,7 +26,7 @@ data "aws_iam_policy_document" "oidc" {
 
     condition {
       test     = "StringLike"
-      values   = ["repo:flyer123/devops-course-tasks/*"]
+      values   = ["repo:flyer123/devops-course-tasks:*"]
       variable = "token.actions.githubusercontent.com:sub"
     }
   }
