@@ -31,7 +31,7 @@ data "aws_iam_policy_document" "oidc" {
   }
 }
 resource "aws_iam_role" "GithubActionsRole" {
-  name               = "GithubActionsRole"
+  name = "GithubActionsRole"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
