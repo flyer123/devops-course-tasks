@@ -14,7 +14,7 @@ data "aws_iam_policy_document" "oidc" {
 
     principals {
       type        = "Federated"
-      identifiers = [aws_iam_openid_connect_provider.openidconnect.arn]
+      identifiers = ["arn:aws:iam::222896848746:oidc-provider/token.actions.githubusercontent.com"]
     }
 
     condition {
