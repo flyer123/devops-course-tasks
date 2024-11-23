@@ -37,30 +37,6 @@ resource "aws_iam_role" "GithubActionsRole" {
   assume_role_policy = data.aws_iam_policy_document.oidc.json
 }
 
-resource "aws_iam_role" "GithubActionsRole" {
-  name = "GithubActionsRole"
-
-  # Terraform's "jsonencode" function converts a
-  # Terraform expression result to valid JSON syntax.
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Sid    = ""
-        Principal = {
-          Service = "ec2.amazonaws.com"
-        }
-      },
-    ]
-  })
-
-  tags = {
-    tag-key = "tag-value"
-  }
-}
-
 resource "aws_iam_role_policy_attachment" "role_policy_attachment_bridge" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEventBridgeFullAccess"
   role       = "GithubActionsRole"
