@@ -1,11 +1,17 @@
 on:
   workflow_dispatch:
   push:
+
 jobs:
-  terraform-check:
+  create-role:
     runs-on: ubuntu-latest
-    name: Check Terraform file are formatted correctly
     steps:
+      - name: configure credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-north-1
       - name: Checkout
         uses: actions/checkout@v4
       - name: Terraform Fmt
@@ -18,45 +24,15 @@ jobs:
         with:
           commit_message: "Terraform fmt"
           commit_user_name: "github-actions[bot]"
-  terraform-plan:
-    needs: [terraform-check]
-    runs-on: ubuntu-latest
-    name: Run terraform plan command
-    permissions:
-      id-token: write
-    steps:
-    - name: Configure Aws Credentials
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        aws-region: eu-north-1
-        role-to-assume: arn:aws:iam::222896848746:role/GithubActionsRole
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: run init
-      run: terraform init
-    - name: run plan
-      run: terraform plan
-  terraform-apply:
-    needs: [terraform-plan]
-    runs-on: ubuntu-latest
-    name: Run terraform apply command
-    permissions:
-      id-token: write
-    steps:
-    - name: Configure Aws Credentials
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        aws-region: eu-north-1
-        role-to-assume: arn:aws:iam::222896848746:role/GithubActionsRole
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: init
-      run: terraform init -migrate-state
-    - name: run apply
-      run: terraform apply -auto-approve
-    - name: state
-      run: terraform state list
-    - name: refresh
-      run: terraform refresh
-    - name: show
-      run: terraform show
+      - name: run init
+        run: terraform init     
+      - name: run plan
+        run: terraform plan
+      - name: run apply
+        run: terraform apply -auto-approve
+      - name: state
+        run: terraform state list
+      - name: refresh
+        run: terraform refresh
+      - name: show
+        run: terraform show

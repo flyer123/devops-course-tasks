@@ -25,8 +25,8 @@ data "aws_iam_policy_document" "oidc" {
     }
 
     condition {
-      test     = "StringLike"
-      values   = ["repo:flyer123/devops-course-tasks:*"]
+      test     = "StringEquals"
+      values   = ["repo:flyer123/devops-course-tasks:ref:refs:/heads/main*"]
       variable = "token.actions.githubusercontent.com:sub"
     }
   }
