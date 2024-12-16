@@ -42,7 +42,7 @@ resource "aws_internet_gateway" "internet-gateway" {
 
 # route table for public subnets
 resource "aws_route_table" "public-rtb" {
-  vpc_id = aws_vpc.vpc-tf.id
+  vpc_id     = aws_vpc.vpc-tf.id
   depends_on = [aws_internet_gateway.internet-gateway]
   route {
     cidr_block = "0.0.0.0/0"
@@ -61,7 +61,7 @@ resource "aws_route_table" "private-rtb" {
   vpc_id = aws_vpc.vpc-tf.id
 
   route {
-    cidr_block     = "0.0.0.0/0"
+    cidr_block = "0.0.0.0/0"
     # nat_instance here
   }
   tags = {
