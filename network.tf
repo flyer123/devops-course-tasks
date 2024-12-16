@@ -4,9 +4,6 @@ data "aws_availability_zones" "available-azs" {
 
 resource "aws_vpc" "vpc-tf" {
   cidr_block = var.cidr_block_vpc
-  tags {
-    Name = "terraform-vpc"
-  }
 }
 
 resource "aws_subnet" "public-subnets-tf_1" {
