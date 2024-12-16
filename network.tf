@@ -74,16 +74,16 @@ resource "aws_route_table" "private-rtb" {
 resource "aws_route_table_association" "public" {
   depends_on     = [aws_subnet.public-subnets-tf]
   route_table_id = aws_route_table.public-rtb.id
-  for_each       = aws_subnet.public-subnets-tf
-  subnet_id      = each.value.id
+  count = 2
+  subnet_id      = aws_subnet.public-subnets-tf[count.index].id
 }
 
 # private subnet route table association
 resource "aws_route_table_association" "private" {
   depends_on     = [aws_subnet.private-subnets-tf]
   route_table_id = aws_route_table.private-rtb.id
-  for_each       = aws_subnet.private-subnets-tf
-  subnet_id      = each.value.id
+  count = 2
+  subnet_id      = aws_subnet.private-subnets-tf[count.index].id
 }
 
 # NAT-instance
