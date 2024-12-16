@@ -1,3 +1,3 @@
 variable "github_role" {
-  # default = "GithubActionsRole"
+  default = "GithubActionsRole"
 }
