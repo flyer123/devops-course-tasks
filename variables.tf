@@ -2,6 +2,6 @@ variable "github_role" {
   default = "GithubActionsRole"
 }
 
-variable "vpc-cidr" {
+variable "cidr_block_vpc" {
   default = "10.20.0.0/16"
 }
