@@ -74,7 +74,7 @@ resource "aws_route_table" "private-rtb" {
 resource "aws_route_table_association" "public" {
   depends_on     = [aws_subnet.public-subnets-tf]
   route_table_id = aws_route_table.public-rtb.id
-  count = 2
+  count          = 2
   subnet_id      = aws_subnet.public-subnets-tf[count.index].id
 }
 
@@ -82,7 +82,7 @@ resource "aws_route_table_association" "public" {
 resource "aws_route_table_association" "private" {
   depends_on     = [aws_subnet.private-subnets-tf]
   route_table_id = aws_route_table.private-rtb.id
-  count = 2
+  count          = 2
   subnet_id      = aws_subnet.private-subnets-tf[count.index].id
 }
 
