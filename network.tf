@@ -10,7 +10,7 @@ resource "aws_vpc" "vpc-tf" {
 }
 
 resource "aws_subnet" "public-subnets-tf" {
-  count = 2
+  count             = 2
   depends_on        = [aws_vpc.vpc-tf]
   vpc_id            = aws_vpc.vpc-tf.id
   cidr_block        = "10.20.${count.index}.0/24"
@@ -21,7 +21,7 @@ resource "aws_subnet" "public-subnets-tf" {
 }
 
 resource "aws_subnet" "private-subnets-tf" {
-  count = 2
+  count             = 2
   depends_on        = [aws_vpc.vpc-tf]
   vpc_id            = aws_vpc.vpc-tf.id
   cidr_block        = "10.20.${count.index + 2}.0/24"
