@@ -31,7 +31,7 @@ resource "aws_subnet" "private-subnets-tf" {
   }
 }
 
-/*
+
 # internet gateway
 resource "aws_internet_gateway" "internet-gateway" {
   vpc_id = aws_vpc.vpc-tf.id
@@ -70,9 +70,20 @@ resource "aws_route_table" "private-rtb" {
   }
 }
 
-# public subnet route table associations
+# public subnet route table association
+resource "aws_route_table_association" "public" {
+  depends_on     = [aws_subnet.public-subnets-tf]
+  route_table_id = aws_route_table.public-rtb.id
+  for_each       = aws_subnet.public-subnets-tf
+  subnet_id      = each.value.id
+}
 
-# private subnet route table associations
+# private subnet route table association
+resource "aws_route_table_association" "private" {
+  depends_on     = [aws_subnet.private-subnets-tf]
+  route_table_id = aws_route_table.private-rtb.id
+  for_each       = aws_subnet.private-subnets-tf
+  subnet_id      = each.value.id
+}
 
 # NAT-instance
-*/
