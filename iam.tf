@@ -31,51 +31,59 @@ data "aws_iam_policy_document" "oidc" {
   }
 }
 resource "aws_iam_role" "GithubActionsRole" {
-  name               = "GithubActionsRole"
+  name               = var.github_role
   assume_role_policy = data.aws_iam_policy_document.oidc.json
 }
 resource "aws_iam_role_policy_attachment" "role_policy_attachment_bridge" {
+  depends_on = [aws_iam_role.GithubActionsRole]
   policy_arn = "arn:aws:iam::aws:policy/AmazonEventBridgeFullAccess"
-  role       = "GithubActionsRole"
+  role       = aws_iam_role.GithubActionsRole.name
 }
 
 resource "aws_iam_role_policy_attachment" "role_policy_attachment_dynamodb" {
+  depends_on = [aws_iam_role.GithubActionsRole]
   policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
-  role       = "GithubActionsRole"
+  role       = aws_iam_role.GithubActionsRole.name
 }
 
 
 resource "aws_iam_role_policy_attachment" "role_policy_attachment_ec2" {
+  depends_on = [aws_iam_role.GithubActionsRole]
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
-  role       = "GithubActionsRole"
+  role       = aws_iam_role.GithubActionsRole.name
 }
 
 
 resource "aws_iam_role_policy_attachment" "role_policy_attachment_iam" {
+  depends_on = [aws_iam_role.GithubActionsRole]
   policy_arn = "arn:aws:iam::aws:policy/IAMFullAccess"
-  role       = "GithubActionsRole"
+  role       = aws_iam_role.GithubActionsRole.name
 }
 
 
 resource "aws_iam_role_policy_attachment" "role_policy_attachment_route53" {
+  depends_on = [aws_iam_role.GithubActionsRole]
   policy_arn = "arn:aws:iam::aws:policy/AmazonRoute53FullAccess"
-  role       = "GithubActionsRole"
+  role       = aws_iam_role.GithubActionsRole.name
 }
 
 
 resource "aws_iam_role_policy_attachment" "role_policy_attachment_s3" {
+  depends_on = [aws_iam_role.GithubActionsRole]
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
-  role       = "GithubActionsRole"
+  role       = aws_iam_role.GithubActionsRole.name
 }
 
 
 resource "aws_iam_role_policy_attachment" "role_policy_attachment_sqs" {
+  depends_on = [aws_iam_role.GithubActionsRole]
   policy_arn = "arn:aws:iam::aws:policy/AmazonSQSFullAccess"
-  role       = "GithubActionsRole"
+  role       = aws_iam_role.GithubActionsRole.name
 }
 
 
 resource "aws_iam_role_policy_attachment" "role_policy_attachment_vpc" {
+  depends_on = [aws_iam_role.GithubActionsRole]
   policy_arn = "arn:aws:iam::aws:policy/AmazonVPCFullAccess"
-  role       = "GithubActionsRole"
+  role       = aws_iam_role.GithubActionsRole.name
 }
