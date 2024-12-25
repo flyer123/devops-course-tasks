@@ -7,6 +7,6 @@ variable "cidr_block_vpc" {
 }
 
 variable "ec2_key_name" {
-  default="devops_key"
+  default = "devops_key"
 }
 
