@@ -176,7 +176,7 @@ resource "aws_network_interface" "nat_network_interface" {
   depends_on        = [aws_security_group.nat_security_group]
   subnet_id         = aws_subnet.public-subnets-tf[0]
   source_dest_check = false
-  security_groups   = [aws_security_group.security_group.id]
+  security_groups   = [aws_security_group.nat_security_group.id]
 
   tags = {
     Name = "nat_instance_network_interface"
