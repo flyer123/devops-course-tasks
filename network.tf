@@ -103,7 +103,7 @@ resource "aws_instance" "nat_aws_instance" {
   depends_on                  = [aws_security_group.nat_security_group, aws_network_interface.nat_network_interface]
   ami                         = data.aws_ami.amzn_linux_2023_ami.id
   instance_type               = "t2.micro"
-  subnet_id                   = aws_subnet.public-subnets-tf[0]
+  subnet_id                   = aws_subnet.public-subnets-tf[0].id
   vpc_security_group_ids      = [aws_security_group.nat_security_group.id]
   associate_public_ip_address = true
   source_dest_check           = false
