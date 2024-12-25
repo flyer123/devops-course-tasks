@@ -62,7 +62,7 @@ resource "aws_route_table" "private-rtb" {
 
   route {
     cidr_block           = "0.0.0.0/0"
-    network_interface_id = aws_network_interface.network_interface.id
+    network_interface_id = aws_network_interface.nat_network_interface.id
   }
   tags = {
     Name = "terraform-private-rtb"
@@ -147,7 +147,7 @@ resource "aws_security_group" "nat_security_group" {
       from_port        = 0
       to_port          = 0
       protocol         = "-1"
-      cidr_blocks      = [cidr_block_vpc]
+      cidr_blocks      = [var.cidr_block_vpc]
       ipv6_cidr_blocks = []
       prefix_list_ids  = []
       security_groups  = []
