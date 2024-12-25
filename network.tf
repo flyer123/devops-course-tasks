@@ -174,7 +174,7 @@ resource "aws_security_group" "nat_security_group" {
 # add separate network interface to EC2 NAT instance
 resource "aws_network_interface" "nat_network_interface" {
   depends_on        = [aws_security_group.nat_security_group]
-  subnet_id         = aws_subnet.public-subnets-tf[0]
+  subnet_id         = aws_subnet.public-subnets-tf[0].id
   source_dest_check = false
   security_groups   = [aws_security_group.nat_security_group.id]
 
