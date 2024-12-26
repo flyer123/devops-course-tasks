@@ -45,8 +45,8 @@ resource "aws_security_group_rule" "nat_instance_inbound_sg_rule" {
 
 # test instance input rules
 resource "aws_security_group_rule" "nat_testing_instance_ingress" {
-  count = 2
-  depends_on = [aws_subnet.public-subnets-tf]
+  count             = 2
+  depends_on        = [aws_subnet.public-subnets-tf]
   type              = "ingress"
   from_port         = 1024
   to_port           = 65535
