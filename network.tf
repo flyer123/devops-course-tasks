@@ -1,4 +1,4 @@
-data "aws_availability_zones" "available-azs" {
+/*data "aws_availability_zones" "available-azs" {
   state = "available"
 }
 
@@ -8,7 +8,7 @@ resource "aws_vpc" "vpc-tf" {
     Name = "terraform-vpc"
   }
 }
-/*
+
 resource "aws_subnet" "public-subnets-tf" {
   count             = 2
   depends_on        = [aws_vpc.vpc-tf]
