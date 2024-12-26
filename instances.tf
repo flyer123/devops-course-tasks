@@ -57,7 +57,7 @@ resource "aws_instance" "nat_testing_aws_instances" {
     encrypted   = true
   }
 
- tags = {
+  tags = {
     Name = "nat_testing_aws_instance-${count.index}"
   }
 }
