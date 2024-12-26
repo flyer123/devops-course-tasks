@@ -36,27 +36,27 @@ jobs:
       run: terraform init
     - name: run plan
       run: terraform plan
-  # terraform-apply:
-  #   needs: [terraform-plan]
-  #   runs-on: ubuntu-22.04
-  #   name: Run terraform apply command
-  #   permissions:
-  #     id-token: write
-  #   steps:
-  #   - name: Configure Aws Credentials
-  #     uses: aws-actions/configure-aws-credentials@v4
-  #     with:
-  #       aws-region: eu-north-1
-  #       role-to-assume: arn:aws:iam::222896848746:role/GithubActionsRole
-  #   - name: Checkout
-  #     uses: actions/checkout@v4
-  #   - name: init
-  #     run: terraform init -migrate-state
-  #   - name: run apply
-  #     run: terraform apply -auto-approve
-  #   - name: state
-  #     run: terraform state list
-  #   - name: refresh
-  #     run: terraform refresh
-  #   - name: show
-  #     run: terraform show
+  terraform-apply:
+    needs: [terraform-plan]
+    runs-on: ubuntu-22.04
+    name: Run terraform apply command
+    permissions:
+      id-token: write
+    steps:
+    - name: Configure Aws Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-region: eu-north-1
+        role-to-assume: arn:aws:iam::222896848746:role/GithubActionsRole
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: init
+      run: terraform init -migrate-state
+    - name: run apply
+      run: terraform apply -auto-approve
+    - name: state
+      run: terraform state list
+    - name: refresh
+      run: terraform refresh
+    - name: show
+      run: terraform show
