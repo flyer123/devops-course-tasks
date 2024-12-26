@@ -39,7 +39,7 @@ resource "aws_security_group_rule" "nat_instance_inbound_sg_rule" {
   from_port         = 1024
   to_port           = 65535
   protocol          = "-1"
-  cidr_blocks       = [var.main_cidr_block]
+  cidr_blocks       = [var.cidr_block_vpc]
   security_group_id = aws_security_group.nat_instance_sg.id
 }
 

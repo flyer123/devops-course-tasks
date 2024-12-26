@@ -10,11 +10,11 @@ data "aws_ami" "amzn_linux_2023_ami" {
 
 resource "aws_instance" "nat_aws_instance" {
   count                       = 1
-  depends_on                  = [aws_security_group.nat_security_group]
+  depends_on                  = [aws_security_group.test_instance_sg]
   ami                         = data.aws_ami.amzn_linux_2023_ami.id
   instance_type               = "t2.micro"
   subnet_id                   = aws_subnet.public-subnets-tf[0].id
-  vpc_security_group_ids      = [aws_security_group.nat_security_group.id]
+  vpc_security_group_ids      = [aws_security_group.test_instance_sg.id]
   associate_public_ip_address = true
   source_dest_check           = false
   user_data                   = <<-EOL
@@ -57,8 +57,9 @@ resource "aws_instance" "nat_testing_aws_instances" {
     encrypted   = true
   }
 
-  tags = (merge(var.tags,
-  tomap({ "Name" = "NAT Testing EC2 Instance ${count.index + 1}" })))
+ tags = {
+    Name = "nat_testing_aws_instance-${count.index}"
+  }
 }
 
 # bastion host
