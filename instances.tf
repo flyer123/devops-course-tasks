@@ -9,7 +9,6 @@ data "aws_ami" "amzn_linux_2023_ami" {
 }
 
 resource "aws_instance" "nat_aws_instance" {
-  count                       = 1
   depends_on                  = [aws_security_group.test_instance_sg]
   ami                         = data.aws_ami.amzn_linux_2023_ami.id
   instance_type               = "t2.micro"
