@@ -43,41 +43,41 @@ resource "aws_instance" "nat_aws_instance" {
 
 # test instances
 resource "aws_instance" "nat_testing_aws_instances" {
-    count                           = 2
-    depends_on                      = [aws_security_group.test_instance_sg]
-    ami                             = data.aws_ami.amzn_linux_2023_ami.id
-    instance_type                   = "t2.micro"
-    subnet_id                       = aws_subnet.private-subnets-tf[count.index].id
-    vpc_security_group_ids          = [aws_security_group.test_instance_sg.id]
-    key_name                        = var.ec2_key_name
+  count                  = 2
+  depends_on             = [aws_security_group.test_instance_sg]
+  ami                    = data.aws_ami.amzn_linux_2023_ami.id
+  instance_type          = "t2.micro"
+  subnet_id              = aws_subnet.private-subnets-tf[count.index].id
+  vpc_security_group_ids = [aws_security_group.test_instance_sg.id]
+  key_name               = var.ec2_key_name
 
-    root_block_device {
-        volume_size                 = "8"
-        volume_type                 = "gp2"
-        encrypted                   = true
-    }
+  root_block_device {
+    volume_size = "8"
+    volume_type = "gp2"
+    encrypted   = true
+  }
 
-    tags                            = "${merge(var.tags,
-                                                tomap({"Name" = "NAT Testing EC2 Instance ${count.index + 1}"}))}"            
+  tags = (merge(var.tags,
+  tomap({ "Name" = "NAT Testing EC2 Instance ${count.index + 1}" })))
 }
 
 # bastion host
 resource "aws_instance" "bastion_host_instance" {
-    #depends_on                      = [aws_security_group.test_instance_sg]
-    ami                             = data.aws_ami.amzn_linux_2023_ami.id
-    instance_type                   = "t2.micro"
-    subnet_id                       = aws_subnet.public-subnets-tf[0].id
-    vpc_security_group_ids          = [aws_security_group.bastion_host_instance_sg.id]
-    key_name                        = var.ec2_key_name
+  #depends_on                      = [aws_security_group.test_instance_sg]
+  ami                    = data.aws_ami.amzn_linux_2023_ami.id
+  instance_type          = "t2.micro"
+  subnet_id              = aws_subnet.public-subnets-tf[0].id
+  vpc_security_group_ids = [aws_security_group.bastion_host_instance_sg.id]
+  key_name               = var.ec2_key_name
 
-    root_block_device {
-        volume_size                 = "8"
-        volume_type                 = "gp2"
-        encrypted                   = true
-    }
+  root_block_device {
+    volume_size = "8"
+    volume_type = "gp2"
+    encrypted   = true
+  }
 
-    tags = {
+  tags = {
     Name = "bastion_host_instance"
     Tier = "public"
-  }      
+  }
 }

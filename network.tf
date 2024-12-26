@@ -61,7 +61,7 @@ resource "aws_route_table" "private-rtb" {
   vpc_id = aws_vpc.vpc-tf.id
 
   route {
-    cidr_block           = "0.0.0.0/0"
+    cidr_block     = "0.0.0.0/0"
     nat_gateway_id = aws_instance.nat_aws_instance.id
   }
   tags = {
@@ -88,7 +88,7 @@ resource "aws_route_table_association" "private" {
 
 # Elastic ip for NAT instance, delete after test
 resource "aws_eip" "nat-ip" {
-  depends_on     = [aws_instance.nat_aws_instance]
-  instance       = aws_instance.nat_aws_instance.id
+  depends_on = [aws_instance.nat_aws_instance]
+  instance   = aws_instance.nat_aws_instance.id
 }
 
