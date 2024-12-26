@@ -51,7 +51,7 @@ resource "aws_security_group_rule" "nat_testing_instance_ingress" {
   from_port         = 1024
   to_port           = 65535
   protocol          = "-1"
-  cidr_blocks       = [cidrsubnet(aws_subnet.public-subnets-tf[count.index].cidr_block, 32, 0)]
+  cidr_blocks       = [cidrsubnet(aws_subnet.public-subnets-tf[count.index].cidr_block, 24, 0)]
   security_group_id = aws_security_group.test_instance_sg.id
 }
 
