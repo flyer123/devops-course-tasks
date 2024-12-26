@@ -8,7 +8,7 @@ resource "aws_vpc" "vpc-tf" {
     Name = "terraform-vpc"
   }
 }
-
+/*
 resource "aws_subnet" "public-subnets-tf" {
   count             = 2
   depends_on        = [aws_vpc.vpc-tf]
@@ -91,4 +91,4 @@ resource "aws_eip" "nat-ip" {
   depends_on = [aws_instance.nat_aws_instance]
   instance   = aws_instance.nat_aws_instance.id
 }
-
+*/
