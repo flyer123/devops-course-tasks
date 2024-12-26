@@ -45,11 +45,13 @@ resource "aws_security_group_rule" "nat_instance_inbound_sg_rule" {
 
 # test instance input rules
 resource "aws_security_group_rule" "nat_testing_instance_ingress" {
+  count = 2
+  depends_on = [aws_subnet.public-subnets-tf]
   type              = "ingress"
   from_port         = 1024
   to_port           = 65535
   protocol          = "-1"
-  cidr_blocks       = var.public_cidr_blocks
+  cidr_blocks       = aws_subnet.public-subnets-tf[count.index]
   security_group_id = aws_security_group.test_instance_sg.id
 }
 
