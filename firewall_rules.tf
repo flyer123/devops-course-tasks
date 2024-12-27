@@ -76,8 +76,8 @@ resource "aws_security_group_rule" "nat_testing_instance_egress" {
 # bastion instance ingress port 22 from internet
 resource "aws_security_group_rule" "bastion_host_instancessh__ingress" {
   type              = "ingress"
-  from_port         = 1024
-  to_port           = 1024
+  from_port         = 22
+  to_port           = 22
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.bastion_host_instance_sg.id
