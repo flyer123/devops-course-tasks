@@ -9,7 +9,6 @@ data "aws_ami" "amzn_linux_2023_ami" {
 }
 
 resource "aws_instance" "nat_aws_instance" {
-  depends_on                  = [aws_security_group.nat_instance_sg]
   ami                         = data.aws_ami.amzn_linux_2023_ami.id
   instance_type               = "t3.micro"
   subnet_id                   = aws_subnet.public-subnets-tf[0].id
@@ -26,7 +25,6 @@ resource "aws_instance" "nat_aws_instance" {
     iptables-save > /etc/iptables/rules.v4
 
   EOF
-  user_data_replace_on_change = true
   key_name                    = var.ec2_key_name
 
   root_block_device {
