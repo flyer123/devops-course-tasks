@@ -17,12 +17,12 @@ resource "aws_instance" "nat_aws_instance" {
   source_dest_check           = false
   user_data                   = <<-EOF
     #!/bin/bash
-    echo "Enabling IP forwarding"
-    sysctl -w net.ipv4.ip_forward=1
-    echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.conf
-
-    iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-    iptables-save > /etc/iptables/rules.v4
+    sudo yum install iptables-services -y
+    sudo systemctl enable iptables
+    sudo systemctl start iptables
+    sudo sysctl -w net.ipv4.ip_forward=1
+    sudo /sbin/iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+    sudo /sbin/iptables -F FORWARD
 
   EOF
   user_data_replace_on_change = true
