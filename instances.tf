@@ -25,6 +25,7 @@ resource "aws_instance" "nat_aws_instance" {
     iptables-save > /etc/iptables/rules.v4
 
   EOF
+  user_data_replace_on_change = true
   key_name                    = var.ec2_key_name
 
   root_block_device {
