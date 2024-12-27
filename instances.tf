@@ -16,7 +16,7 @@ resource "aws_instance" "nat_aws_instance" {
   vpc_security_group_ids      = [aws_security_group.nat_instance_sg.id]
   associate_public_ip_address = true
   source_dest_check           = false
-  user_data = <<-EOF
+  user_data                   = <<-EOF
     #!/bin/bash
     echo "Enabling IP forwarding"
     sysctl -w net.ipv4.ip_forward=1
