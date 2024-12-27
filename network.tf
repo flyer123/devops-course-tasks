@@ -59,7 +59,7 @@ resource "aws_route_table" "public-rtb" {
 # route table for private subnets
 resource "aws_route_table" "private-rtb" {
   vpc_id = aws_vpc.vpc-tf.id
-
+  depends_on = [aws_instance.nat_aws_instance]
   route {
     cidr_block           = "0.0.0.0/0"
     network_interface_id = aws_instance.nat_aws_instance.primary_network_interface_id
