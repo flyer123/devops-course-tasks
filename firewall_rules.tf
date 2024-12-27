@@ -68,8 +68,18 @@ resource "aws_security_group_rule" "nat_testing_instance_egress" {
 # nat test instance ingress port 22 from bastion host
 resource "aws_security_group_rule" "nat_testing_instance_ssh_ingress" {
   count             = 2
-  depends_on        = [aws_instance.bastion_host_instance]
   type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  cidr_blocks       = ["${aws_subnet.public-subnets-tf[count.index].cidr_block}"]
+  security_group_id = aws_security_group.test_instance_sg.id
+}
+
+# nat test instance egress port 22 from bastion host
+resource "aws_security_group_rule" "nat_testing_instance_ssh_egress" {
+  count             = 2
+  type              = "egress"
   from_port         = 22
   to_port           = 22
   protocol          = "tcp"
