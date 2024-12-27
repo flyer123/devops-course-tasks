@@ -1,4 +1,4 @@
-# NAT-instance ami
+/*# NAT-instance ami
 data "aws_ami" "amzn_linux_2023_ami" {
   most_recent = true
   owners      = ["amazon"]
@@ -16,15 +16,16 @@ resource "aws_instance" "nat_aws_instance" {
   vpc_security_group_ids      = [aws_security_group.nat_instance_sg.id]
   associate_public_ip_address = true
   source_dest_check           = false
-  user_data                   = <<-EOL
-                                        #! /bin/bash
-                                        sudo yum install iptables-services -y
-                                        sudo systemctl enable iptables
-                                        sudo systemctl start iptables
-                                        sudo sysctl -w net.ipv4.ip_forward=1
-                                        sudo /sbin/iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-                                        sudo /sbin/iptables -F FORWARD
-    EOL
+  user_data = <<-EOF
+    #!/bin/bash
+    echo "Enabling IP forwarding"
+    sysctl -w net.ipv4.ip_forward=1
+    echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.conf
+
+    iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+    iptables-save > /etc/iptables/rules.v4
+
+  EOF
   user_data_replace_on_change = true
   key_name                    = var.ec2_key_name
 
@@ -81,4 +82,4 @@ resource "aws_instance" "bastion_host_instance" {
     Name = "bastion_host_instance"
     Tier = "public"
   }
-}
+}*/
