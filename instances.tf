@@ -1,4 +1,4 @@
-/*# NAT-instance ami
+# NAT-instance ami
 data "aws_ami" "amzn_linux_2023_ami" {
   most_recent = true
   owners      = ["amazon"]
@@ -82,4 +82,4 @@ resource "aws_instance" "bastion_host_instance" {
     Name = "bastion_host_instance"
     Tier = "public"
   }
-}*/
+}

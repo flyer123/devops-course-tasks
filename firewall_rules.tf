@@ -1,4 +1,4 @@
-/*# NAT security group
+# NAT security group
 resource "aws_security_group" "nat_instance_sg" {
   depends_on  = [aws_vpc.vpc-tf]
   name        = "nat_instance_security_group"
@@ -26,7 +26,7 @@ resource "aws_security_group" "bastion_host_instance_sg" {
 # output connections to nat instance
 resource "aws_security_group_rule" "nat_instance_output_sg_rule" {
   type              = "egress"
-  from_port         = 1024
+  from_port         = 1
   to_port           = 65535
   protocol          = "-1"
   cidr_blocks       = ["0.0.0.0/0"]
@@ -36,7 +36,7 @@ resource "aws_security_group_rule" "nat_instance_output_sg_rule" {
 # input connections to nat instance
 resource "aws_security_group_rule" "nat_instance_inbound_sg_rule" {
   type              = "ingress"
-  from_port         = 1024
+  from_port         = 1
   to_port           = 65535
   protocol          = "-1"
   cidr_blocks       = ["0.0.0.0/0"]
@@ -48,7 +48,7 @@ resource "aws_security_group_rule" "nat_testing_instance_ingress" {
   count             = 2
   depends_on        = [aws_subnet.public-subnets-tf]
   type              = "ingress"
-  from_port         = 1024
+  from_port         = 1
   to_port           = 65535
   protocol          = "-1"
   cidr_blocks       = ["${aws_subnet.public-subnets-tf[count.index].cidr_block}"]
@@ -58,7 +58,7 @@ resource "aws_security_group_rule" "nat_testing_instance_ingress" {
 # test instance output rules
 resource "aws_security_group_rule" "nat_testing_instance_egress" {
   type              = "egress"
-  from_port         = 1024
+  from_port         = 1
   to_port           = 65535
   protocol          = "-1"
   cidr_blocks       = ["0.0.0.0/0"]
@@ -125,4 +125,4 @@ resource "aws_security_group_rule" "nat_instance_ssh_eggress" {
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.nat_instance_sg.id
-}*/
+}
