@@ -96,3 +96,13 @@ resource "aws_security_group_rule" "bastion_host_instance_ssh_ingress" {
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.bastion_host_instance_sg.id
 }
+
+# bastion instance egress port 22
+resource "aws_security_group_rule" "bastion_host_instance_ssh_eggress" {
+  type              = "egress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.bastion_host_instance_sg.id
+}
