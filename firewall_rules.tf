@@ -43,7 +43,7 @@ resource "aws_security_group_rule" "nat_instance_inbound_sg_rule" {
   security_group_id = aws_security_group.nat_instance_sg.id
 }
 
-# test instance input rules, probably will remove it
+# test instance input rules
 resource "aws_security_group_rule" "nat_testing_instance_ingress" {
   count             = 2
   depends_on        = [aws_subnet.public-subnets-tf]
@@ -55,7 +55,7 @@ resource "aws_security_group_rule" "nat_testing_instance_ingress" {
   security_group_id = aws_security_group.test_instance_sg.id
 }
 
-# test instance output rules, probably will remove it
+# test instance output rules
 resource "aws_security_group_rule" "nat_testing_instance_egress" {
   type              = "egress"
   from_port         = 1024
@@ -65,20 +65,20 @@ resource "aws_security_group_rule" "nat_testing_instance_egress" {
   security_group_id = aws_security_group.test_instance_sg.id
 }
 
-# nat instance ingress port 22 from bastion host
+# nat test instance ingress port 22 from bastion host
 resource "aws_security_group_rule" "nat_testing_instance_ssh_ingress" {
   count = 2
   depends_on        = [aws_instance.bastion_host_instance]
   type              = "ingress"
   from_port         = 22
   to_port           = 22
-  protocol          = "-1"
+  protocol          = "tcp"
   cidr_blocks       = ["${aws_subnet.public-subnets-tf[count.index].cidr_block}"]
   security_group_id = aws_security_group.test_instance_sg.id
 }
 
 # bastion instance ingress port 22 from internet
-resource "aws_security_group_rule" "bastion_host_instance_ssh__ingress" {
+resource "aws_security_group_rule" "bastion_host_instance_ssh_ingress" {
   type              = "ingress"
   from_port         = 22
   to_port           = 22
