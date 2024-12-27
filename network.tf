@@ -62,7 +62,7 @@ resource "aws_route_table" "private-rtb" {
 
   route {
     cidr_block  = "0.0.0.0/0"
-    instance_id = aws_instance.nat_aws_instance.id
+    network_interface_id = aws_instance.nat_aws_instance.primary_network_interface_id
   }
   tags = {
     Name = "terraform-private-rtb"
