@@ -65,6 +65,7 @@ resource "aws_instance" "nat_testing_aws_instances" {
 resource "aws_instance" "bastion_host_instance" {
   #depends_on                      = [aws_security_group.test_instance_sg]
   ami                    = data.aws_ami.amzn_linux_2023_ami.id
+  associate_public_ip_address = true
   instance_type          = "t3.micro"
   subnet_id              = aws_subnet.public-subnets-tf[0].id
   vpc_security_group_ids = [aws_security_group.bastion_host_instance_sg.id]
