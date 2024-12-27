@@ -39,7 +39,7 @@ resource "aws_security_group_rule" "nat_instance_inbound_sg_rule" {
   from_port         = 1024
   to_port           = 65535
   protocol          = "-1"
-  cidr_blocks       = [var.cidr_block_vpc]
+  cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.nat_instance_sg.id
 }
 
@@ -105,4 +105,24 @@ resource "aws_security_group_rule" "bastion_host_instance_ssh_eggress" {
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.bastion_host_instance_sg.id
+}
+
+# nat instance ingress port 22 from internet
+resource "aws_security_group_rule" "nat_instance_ssh_ingress" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.nat_instance_sg.id
+}
+
+# nat instance egress port 22
+resource "aws_security_group_rule" "nat_instance_ssh_eggress" {
+  type              = "egress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.nat_instance_sg.id
 }
