@@ -9,11 +9,11 @@ data "aws_ami" "amzn_linux_2023_ami" {
 }
 
 resource "aws_instance" "nat_aws_instance" {
-  depends_on                  = [aws_security_group.test_instance_sg]
+  depends_on                  = [aws_security_group.nat_instance_sg]
   ami                         = data.aws_ami.amzn_linux_2023_ami.id
   instance_type               = "t3.micro"
   subnet_id                   = aws_subnet.public-subnets-tf[0].id
-  vpc_security_group_ids      = [aws_security_group.test_instance_sg.id]
+  vpc_security_group_ids      = [aws_security_group.nat_instance_sg.id]
   associate_public_ip_address = true
   source_dest_check           = false
   user_data                   = <<-EOL
