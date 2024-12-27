@@ -72,7 +72,7 @@ resource "aws_security_group_rule" "nat_testing_instance_ssh_ingress" {
   from_port         = 22
   to_port           = 22
   protocol          = "-1"
-  cidr_blocks       = ["${aws_instance.bastion_host_instance.private_ip}/32"]
+  cidr_blocks       = ["${aws_subnet.public-subnets-tf[count.index].cidr_block}"]
   security_group_id = aws_security_group.test_instance_sg.id
 }
 
