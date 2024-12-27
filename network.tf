@@ -1,4 +1,4 @@
-/*data "aws_availability_zones" "available-azs" {
+data "aws_availability_zones" "available-azs" {
   state = "available"
 }
 
@@ -62,7 +62,7 @@ resource "aws_route_table" "private-rtb" {
 
   route {
     cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_instance.nat_aws_instance.id
+    instance_id = aws_instance.nat_aws_instance.id
   }
   tags = {
     Name = "terraform-private-rtb"
@@ -91,4 +91,3 @@ resource "aws_eip" "nat-ip" {
   depends_on = [aws_instance.nat_aws_instance]
   instance   = aws_instance.nat_aws_instance.id
 }
-*/
