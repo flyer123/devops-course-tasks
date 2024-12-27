@@ -67,7 +67,7 @@ resource "aws_security_group_rule" "nat_testing_instance_egress" {
 
 # nat test instance ingress port 22 from bastion host
 resource "aws_security_group_rule" "nat_testing_instance_ssh_ingress" {
-  count = 2
+  count             = 2
   depends_on        = [aws_instance.bastion_host_instance]
   type              = "ingress"
   from_port         = 22
