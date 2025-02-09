@@ -1,4 +1,4 @@
-# NAT-instance ami
+/*# NAT-instance ami
 data "aws_ami" "amzn_linux_2023_ami" {
   most_recent = true
   owners      = ["amazon"]
@@ -48,7 +48,7 @@ resource "aws_instance" "nat_aws_instance" {
 }
 
 
-/*# test instances
+# test instances
 resource "aws_instance" "nat_testing_aws_instances" {
   count                  = 2
   depends_on             = [aws_security_group.test_instance_sg]
@@ -68,12 +68,12 @@ resource "aws_instance" "nat_testing_aws_instances" {
     Name = "nat_testing_aws_instance-${count.index}"
   }
 }
-*/
+
 
 # k3s master instance
 resource "aws_instance" "master" {
-  ami                    = "ami-09a9858973b288bdd"
-  instance_type          = "t3a.medium"
+  ami           = "ami-09a9858973b288bdd"
+  instance_type ="t3a.medium"
   subnet_id              = aws_subnet.private-subnets-tf[0].id
   vpc_security_group_ids = [aws_security_group.test_instance_sg.id]
   key_name               = var.ec2_key_name
@@ -86,15 +86,15 @@ resource "aws_instance" "master" {
 
 # node instance
 resource "aws_instance" "node" {
-  ami                    = "ami-09a9858973b288bdd"
-  instance_type          = "t3a.medium"
+  ami           = "ami-09a9858973b288bdd"
+  instance_type ="t3a.medium"
   subnet_id              = aws_subnet.private-subnets-tf[1].id
   vpc_security_group_ids = [aws_security_group.test_instance_sg.id]
   key_name               = var.ec2_key_name
 
-
+ 
   user_data = data.template_file.node.rendered
-
+ 
 
   iam_instance_profile = aws_iam_instance_profile.k3s_node.name
 
@@ -244,3 +244,4 @@ resource "aws_iam_instance_profile" "k3s_node" {
   name = "get_parameters"
   role = aws_iam_role.get_parameters.name
 }
+*/
