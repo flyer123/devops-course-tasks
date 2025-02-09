@@ -87,3 +87,9 @@ resource "aws_iam_role_policy_attachment" "role_policy_attachment_vpc" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonVPCFullAccess"
   role       = aws_iam_role.GithubActionsRole.name
 }
+
+resource "aws_iam_role_policy_attachment" "role_policy_attachment_ssm" {
+  depends_on = [aws_iam_role.GithubActionsRole]
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMFullAccess"
+  role       = aws_iam_role.GithubActionsRole.name
+}
