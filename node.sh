@@ -6,7 +6,7 @@ apt update
 apt install awscli -y
 
 c=0
-max=60
+max=100
 
 until [[ "$(curl -k -sL -I https://${MASTER_PRIVATE_IPV4}:6443/healthz | head -n1)" == *"HTTP/2 401"* ]];  do
   echo "Waiting for Kubernetes API to be available..."
@@ -19,7 +19,7 @@ done
 
 
 count=0
-retries=30
+retries=100
 
 until [[ "$(aws ssm get-parameters --names k3s_token --query 'Parameters[0].Value' --output text --region ${REGION})" != "empty" ]]; do
   ((count++))

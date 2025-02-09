@@ -1,4 +1,4 @@
-/*# NAT-instance ami
+# NAT-instance ami
 data "aws_ami" "amzn_linux_2023_ami" {
   most_recent = true
   owners      = ["amazon"]
@@ -48,7 +48,7 @@ resource "aws_instance" "nat_aws_instance" {
 }
 
 
-# test instances
+/*# test instances
 resource "aws_instance" "nat_testing_aws_instances" {
   count                  = 2
   depends_on             = [aws_security_group.test_instance_sg]
@@ -67,7 +67,7 @@ resource "aws_instance" "nat_testing_aws_instances" {
   tags = {
     Name = "nat_testing_aws_instance-${count.index}"
   }
-}
+}*/
 
 
 # k3s master instance
@@ -83,11 +83,16 @@ resource "aws_instance" "master" {
 
   iam_instance_profile = aws_iam_instance_profile.k3s_master.name
 
+  tags = {
+    Name = "K3s_Master_instance"
+    Tier = "private"
+  }
+
 }
 
 # node instance
 resource "aws_instance" "node" {
-  depends_on             = [aws_ssm_parameter.k3s_token]
+  depends_on             = [aws_ssm_parameter.k3s_token, aws_instance.master]
   ami                    = "ami-09a9858973b288bdd"
   instance_type          = "t3.medium"
   subnet_id              = aws_subnet.private-subnets-tf[1].id
@@ -99,6 +104,11 @@ resource "aws_instance" "node" {
 
 
   iam_instance_profile = aws_iam_instance_profile.k3s_node.name
+
+  tags = {
+    Name = "K3s_Node_instance"
+    Tier = "private"
+  }
 
 }
 
@@ -193,7 +203,7 @@ resource "aws_iam_instance_profile" "k3s_master" {
 
 data "template_file" "node" {
   template = file("./node.sh")
-
+  depends_on = [aws_instance.master]
   vars = {
     MASTER_PRIVATE_IPV4 = aws_instance.master.private_ip
     REGION              = "eu-north-1"
@@ -252,4 +262,3 @@ resource "aws_iam_instance_profile" "k3s_node" {
   name       = "get_parameters"
   role       = aws_iam_role.get_parameters.name
 }
-*/
