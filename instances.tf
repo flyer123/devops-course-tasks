@@ -243,8 +243,4 @@ EOF
 resource "aws_iam_instance_profile" "k3s_node" {
   name = "get_parameters"
   role = aws_iam_role.get_parameters.name
-}
-
-
-
-*/
+}*/
