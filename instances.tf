@@ -1,4 +1,4 @@
-# NAT-instance ami
+/*# NAT-instance ami
 data "aws_ami" "amzn_linux_2023_ami" {
   most_recent = true
   owners      = ["amazon"]
@@ -48,7 +48,7 @@ resource "aws_instance" "nat_aws_instance" {
 }
 
 
-/*# test instances
+# test instances
 resource "aws_instance" "nat_testing_aws_instances" {
   count                  = 2
   depends_on             = [aws_security_group.test_instance_sg]
@@ -67,7 +67,7 @@ resource "aws_instance" "nat_testing_aws_instances" {
   tags = {
     Name = "nat_testing_aws_instance-${count.index}"
   }
-}*/
+}
 
 
 # k3s master instance
@@ -202,7 +202,7 @@ resource "aws_iam_instance_profile" "k3s_master" {
 }
 
 data "template_file" "node" {
-  template   = file("./node.sh")
+  template = file("./node.sh")
   depends_on = [aws_instance.master]
   vars = {
     MASTER_PRIVATE_IPV4 = aws_instance.master.private_ip
@@ -261,4 +261,4 @@ resource "aws_iam_instance_profile" "k3s_node" {
   depends_on = [aws_ssm_parameter.k3s_token]
   name       = "get_parameters"
   role       = aws_iam_role.get_parameters.name
-}
+}*/
