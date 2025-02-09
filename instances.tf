@@ -202,7 +202,7 @@ resource "aws_iam_instance_profile" "k3s_master" {
 }
 
 data "template_file" "node" {
-  template = file("./node.sh")
+  template   = file("./node.sh")
   depends_on = [aws_instance.master]
   vars = {
     MASTER_PRIVATE_IPV4 = aws_instance.master.private_ip
