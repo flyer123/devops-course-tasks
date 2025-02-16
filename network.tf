@@ -1,4 +1,4 @@
-/*data "aws_availability_zones" "available-azs" {
+data "aws_availability_zones" "available-azs" {
   state = "available"
 }
 
@@ -64,10 +64,6 @@ resource "aws_route_table" "private-rtb" {
     cidr_block           = "0.0.0.0/0"
     network_interface_id = aws_instance.nat_aws_instance.primary_network_interface_id
   }
-  route {
-    cidr_block = var.cidr_block_vpc
-    gateway_id = "local"
-  }
   tags = {
     Name = "terraform-private-rtb"
     Tier = "private"
@@ -96,4 +92,4 @@ resource "aws_route_table_association" "private" {
 resource "aws_eip" "nat-ip" {
   depends_on = [aws_instance.nat_aws_instance]
   instance   = aws_instance.nat_aws_instance.id
-}*/
+}
