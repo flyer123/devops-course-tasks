@@ -131,7 +131,7 @@ resource "aws_security_group_rule" "allow_all_traffic" {
   type              = "ingress"
   from_port         = 0
   to_port           = 65535
-  protocol         = "-1"
-  cidr_blocks      = ["10.20.0.0/16"]
+  protocol          = "-1"
+  cidr_blocks       = ["10.20.0.0/16"]
   security_group_id = aws_security_group.test_instance_sg.id
 }
