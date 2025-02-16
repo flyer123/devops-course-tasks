@@ -72,9 +72,9 @@ resource "aws_route_table" "private-rtb" {
 
 # route table for private subnets local traffic
 resource "aws_route_table" "private-rtb-local" {
-  vpc_id     = aws_vpc.vpc-tf.id
+  vpc_id = aws_vpc.vpc-tf.id
   route {
-    cidr_block           = var.cidr_block_vpc
+    cidr_block = var.cidr_block_vpc
     gateway_id = "local"
   }
   tags = {
