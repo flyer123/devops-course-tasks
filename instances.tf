@@ -72,7 +72,7 @@ resource "aws_instance" "nat_testing_aws_instances" {
 
 # k3s master instance
 resource "aws_instance" "master" {
-  depends_on             = [aws_ssm_parameter.k3s_token]
+  depends_on             = [aws_ssm_parameter.k3s_token, aws_instance.nat_aws_instance]
   ami                    = "ami-09a9858973b288bdd"
   instance_type          = "t3.medium"
   subnet_id              = aws_subnet.private-subnets-tf[0].id
