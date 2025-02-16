@@ -1,4 +1,4 @@
-data "aws_availability_zones" "available-azs" {
+/*data "aws_availability_zones" "available-azs" {
   state = "available"
 }
 
@@ -90,4 +90,4 @@ resource "aws_route_table_association" "private" {
 resource "aws_eip" "nat-ip" {
   depends_on = [aws_instance.nat_aws_instance]
   instance   = aws_instance.nat_aws_instance.id
-}
+}*/
