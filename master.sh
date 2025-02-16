@@ -1,7 +1,9 @@
 #!/bin/bash
 
 sudo apt update
-sudo apt install awscli -y
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
 
 curl -sfL https://get.k3s.io | sh -s - \
   --write-kubeconfig-mode 644 \
