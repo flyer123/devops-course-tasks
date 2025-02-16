@@ -1,10 +1,6 @@
 #!/bin/bash
 
-sudo apt update && sudo apt upgrade -y
-sudo apt install -y curl unzip
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-unzip awscliv2.zip
-sudo ./aws/install
+
 
 curl -sfL https://get.k3s.io | sh -s - \
   --write-kubeconfig-mode 644 \
@@ -26,3 +22,18 @@ until [[ "$(curl -k -s -o /dev/null -w '%{http_code}' https://$(curl -s http://1
   sleep 5
 done
 
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y curl unzip
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+
+aws ssm put-parameter --name "k3s_token" \
+  --value "$(sudo cat /var/lib/rancher/k3s/server/node-token)" \
+  --type "String" --overwrite \
+  --region eu-north-1
+
+echo -e "
+source <(kubectl completion bash)
+alias k=kubectl
+complete -F __start_kubectl k" >> /home/ubuntu/.bashrc >> ~/.bashrc
