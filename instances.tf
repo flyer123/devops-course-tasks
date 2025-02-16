@@ -48,7 +48,7 @@ resource "aws_instance" "nat_aws_instance" {
 }
 
 
-# test instances
+/*# test instances
 resource "aws_instance" "nat_testing_aws_instances" {
   count                  = 2
   depends_on             = [aws_security_group.test_instance_sg]
@@ -67,7 +67,7 @@ resource "aws_instance" "nat_testing_aws_instances" {
   tags = {
     Name = "nat_testing_aws_instance-${count.index}"
   }
-}
+}*/
 
 
 # k3s master instance
