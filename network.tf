@@ -64,24 +64,17 @@ resource "aws_route_table" "private-rtb" {
     cidr_block           = "0.0.0.0/0"
     network_interface_id = aws_instance.nat_aws_instance.primary_network_interface_id
   }
+  route {
+    cidr_block = var.cidr_block_vpc
+    gateway_id = "local"
+  }
   tags = {
     Name = "terraform-private-rtb"
     Tier = "private"
   }
 }
 
-# route table for private subnets local traffic
-resource "aws_route_table" "private-rtb-local" {
-  vpc_id = aws_vpc.vpc-tf.id
-  route {
-    cidr_block = var.cidr_block_vpc
-    gateway_id = "local"
-  }
-  tags = {
-    Name = "terraform-private-rtb-local"
-    Tier = "private"
-  }
-}
+
 
 # public subnet route table association
 resource "aws_route_table_association" "public" {
@@ -99,13 +92,6 @@ resource "aws_route_table_association" "private" {
   subnet_id      = aws_subnet.private-subnets-tf[count.index].id
 }
 
-# private subnet route table association for local traffic
-resource "aws_route_table_association" "private-local" {
-  depends_on     = [aws_subnet.private-subnets-tf, aws_route_table.private-rtb-local]
-  route_table_id = aws_route_table.private-rtb-local.id
-  count          = 2
-  subnet_id      = aws_subnet.private-subnets-tf[count.index].id
-}
 # Elastic ip for NAT instance, delete after test
 resource "aws_eip" "nat-ip" {
   depends_on = [aws_instance.nat_aws_instance]
