@@ -1,4 +1,4 @@
-/*# NAT security group
+# NAT security group
 resource "aws_security_group" "nat_instance_sg" {
   depends_on  = [aws_vpc.vpc-tf]
   name        = "nat_instance_security_group"
@@ -134,4 +134,4 @@ resource "aws_security_group_rule" "allow_all_traffic" {
   protocol          = "-1"
   cidr_blocks       = ["10.20.0.0/16"]
   security_group_id = aws_security_group.test_instance_sg.id
-}*/
+}
