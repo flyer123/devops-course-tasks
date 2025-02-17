@@ -1,4 +1,4 @@
-/# NAT security group
+# NAT security group
 resource "aws_security_group" "nat_instance_sg" {
   depends_on  = [aws_vpc.vpc-tf]
   name        = "nat_instance_security_group"
