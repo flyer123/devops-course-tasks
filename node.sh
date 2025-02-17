@@ -18,49 +18,27 @@ REGION="eu-north-1"  # Update the region if needed
 c=0
 max=60
 
-while true; do
-  STATUS_CODE=$(curl -k -s -o /dev/null -I https://$MASTER_PRIVATE_IPV4:6443/healthz | awk 'NR==1 {print $2}')
-
-
-  
-  if [[ "$STATUS_CODE" == "401" ]]; then
-    echo "✅ Kubernetes API is ready!"
-    break
-  fi
-
-  echo "⏳ Waiting for Kubernetes API... (Attempt: $c)"
+until [[ "$(curl -k -sL -I https://${MASTER_PRIVATE_IPV4}:6443/healthz | head -n1)" == *"HTTP/2 401"* ]];  do
+  echo "Waiting for Kubernetes API to be available..."
   ((c++))
-
   if [[ $c -ge $max ]]; then
-    echo "❌ Error: Kubernetes API did not become available."
     exit 1
   fi
-
   sleep 5
 done
 
-# Wait for K3s Token to be available in AWS SSM Parameter Store
+
 count=0
 retries=30
 
-while true; do
-  K3S_TOKEN_SSM=$(aws ssm get-parameters --names k3s_token --query 'Parameters[0].Value' --output text --region $REGION)
-  
-  if [[ "$K3S_TOKEN_SSM" != "empty" && -n "$K3S_TOKEN_SSM" ]]; then
-    echo "✅ Successfully retrieved K3S token."
-    break
-  fi
-
+until [[ "$(aws ssm get-parameters --names k3s_token --query 'Parameters[0].Value' --output text --region ${REGION})" != "empty" ]]; do
   ((count++))
   if [[ $count -ge $retries ]]; then
-    echo "❌ Could not retrieve K3S token."
-    exit 1
+    echo "Could not get a proper K3S token"
+    exit 0
   fi
-
   sleep 10
 done
 
-# Install K3s Node and Join to the Cluster
-curl -sfL https://get.k3s.io | K3S_URL="https://$MASTER_PRIVATE_IPV4:6443" K3S_TOKEN="$K3S_TOKEN_SSM" sh -
-
-echo "✅ K3s Node Setup Complete!"
+export K3S_TOKEN_SSM="$(aws ssm get-parameters --names k3s_token --query 'Parameters[0].Value' --output text --region ${REGION})"
+curl -sfL https://get.k3s.io | K3S_URL=https://${MASTER_PRIVATE_IPV4}:6443 K3S_TOKEN=$K3S_TOKEN_SSM sh -
