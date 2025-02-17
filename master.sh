@@ -21,18 +21,7 @@ curl -sfL https://get.k3s.io | sh -s - \
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 
 
-# Wait for Kubernetes API to be available
-c=0
-max=60
-
-until [[ "$(curl -k -s -o /dev/null -w '%{http_code}' https://$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4):6443/healthz)" == "401" ]];  do
-  echo "Waiting for Kubernetes API to be available..."
-  ((c++))
-  if [[ ${c} -ge ${max} ]]; then
-    exit 0
-  fi
-  sleep 5
-done
+sleep 240
 
 aws ssm put-parameter --name "k3s_token" \
   --value "$(sudo cat /var/lib/rancher/k3s/server/node-token)" \
