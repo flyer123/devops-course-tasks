@@ -32,7 +32,7 @@ sleep 120
 aws ssm put-parameter --name "k3s_token" \
   --value "$(sudo cat /var/lib/rancher/k3s/server/node-token)" \
   --type "String" --overwrite \
-  --region us-east-1
+  --region eu-north-1
 
 echo -e "
 source <(kubectl completion bash)
