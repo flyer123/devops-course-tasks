@@ -9,10 +9,13 @@ unzip awscliv2.zip
 sudo ./aws/install
 sleep 5
 
-# Install K3s
+# Get Private IP
+PRIVATE_IP=$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)
+
+# Install K3s using Private IP
 curl -sfL https://get.k3s.io | sh -s - \
   --write-kubeconfig-mode 644 \
-  --tls-san "$(curl ifconfig.me)" \
+  --tls-san "$PRIVATE_IP" \
   --disable servicelb \
   --disable traefik
 
@@ -22,33 +25,35 @@ export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 c=0
 max=60
 
-until [[ "$(curl -k -s -o /dev/null -w '%{http_code}' https://$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4):6443/healthz)" == "401" ]]; do
-  echo "Waiting for Kubernetes API to be available..."
-  ((c++))
-  if [[ ${c} -ge ${max} ]]; then
-    exit 0
+while true; do
+  STATUS_CODE=$(curl -k -s -o /dev/null -w '%{http_code}' https://$PRIVATE_IP:6443/healthz)
+  
+  if [[ "$STATUS_CODE" == "401" ]]; then
+    echo "Kubernetes API is ready!"
+    break
   fi
+
+  echo "Waiting for Kubernetes API to be available... (Attempt: $c)"
+  ((c++))
+
+  if [[ $c -ge $max ]]; then
+    echo "Error: Kubernetes API did not become available after $max attempts."
+    exit 1
+  fi
+
   sleep 5
 done
 
 sleep 120
 
-# Ensure AWS CLI can authenticate
-aws sts get-caller-identity >> /tmp/aws_sts.log 2>&1
-
-# Export AWS region
-export AWS_DEFAULT_REGION="eu-north-1"
-
-# Debug logs for AWS SSM
+# Store k3s token in AWS SSM Parameter Store
 aws ssm put-parameter --name "k3s_token" \
   --value "$(sudo cat /var/lib/rancher/k3s/server/node-token)" \
   --type "String" --overwrite \
-  --region eu-north-1 >> /tmp/aws_ssm.log 2>&1
-
-# Debugging: Check if token is stored
-cat /tmp/aws_ssm.log
+  --region eu-north-1
 
 # Add Kubernetes alias
 echo -e "
 source <(kubectl completion bash)
 alias k=kubectl
+complete -F __start_kubectl k" >> /home/ubuntu/.bashrc
