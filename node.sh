@@ -19,7 +19,8 @@ c=0
 max=60
 
 while true; do
-  STATUS_CODE=$(curl -k -s -o /dev/null -w "%{http_code}" https://$MASTER_PRIVATE_IPV4:6443/healthz)
+  STATUS_CODE=$(curl -k -s -o /dev/null -I https://$MASTER_PRIVATE_IPV4:6443/healthz | awk 'NR==1 {print $2}')
+
 
   
   if [[ "$STATUS_CODE" == "401" ]]; then
