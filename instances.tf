@@ -126,7 +126,7 @@ resource "aws_ssm_parameter" "k3s_token" {
 
 output "master_private_ip" {
   depends_on             = [aws_instance.master]
-  value = aws_instance.k3s_master.private_ip
+  value = aws_instance.master.private_ip
 }
 
 # put parameters role for master
@@ -188,7 +188,7 @@ data "template_file" "node" {
   template   = file("./node.sh.tmpl")
   depends_on = [aws_instance.master]
   vars = {
-    master_private_ip = aws_instance.k3s_master.private_ip
+    master_private_ip = aws_instance.master.private_ip
     region            = "eu-north-1"
   }
 }
