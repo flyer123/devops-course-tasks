@@ -8,11 +8,11 @@ sudo apt install -y curl unzip
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 unzip awscliv2.zip
 sudo ./aws/install
-sleep 5
+sleep 100
 
 # Get Master Private IP (from Terraform or Metadata)
-#MASTER_PRIVATE_IPV4="<MASTER_PRIVATE_IP>"
-REGION="eu-north-1"  # Update the region if needed
+MASTER_PRIVATE_IPV4="${master_private_ip}"
+REGION="${region}"  # Update the region if needed
 
 # Wait for Kubernetes API to be available
 sleep 380
