@@ -185,7 +185,7 @@ data "template_file" "node" {
   depends_on = [aws_instance.master]
   vars = {
     master_private_ip = aws_instance.master.private_ip
-    REGION              = "eu-north-1"
+    REGION            = "eu-north-1"
   }
 }
 
