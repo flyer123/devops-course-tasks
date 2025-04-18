@@ -1,4 +1,4 @@
-/*# NAT-instance ami
+# NAT-instance ami
 data "aws_ami" "amzn_linux_2023_ami" {
   most_recent = true
   owners      = ["amazon"]
@@ -124,6 +124,10 @@ resource "aws_ssm_parameter" "k3s_token" {
   }
 }
 
+output "master_private_ip" {
+  depends_on             = [aws_instance.master]
+  value = aws_instance.k3s_master.private_ip
+}
 
 # put parameters role for master
 resource "aws_iam_role" "put_parameters" {
@@ -181,11 +185,11 @@ resource "aws_iam_instance_profile" "k3s_master" {
 }
 
 data "template_file" "node" {
-  template   = file("./node.sh")
+  template   = file("./node.sh.tmpl")
   depends_on = [aws_instance.master]
   vars = {
-    MASTER_PRIVATE_IPV4 = aws_instance.master.private_ip
-    REGION              = "eu-north-1"
+    master_private_ip = aws_instance.k3s_master.private_ip
+    region            = "eu-north-1"
   }
 }
 
@@ -240,4 +244,4 @@ resource "aws_iam_instance_profile" "k3s_node" {
   depends_on = [aws_ssm_parameter.k3s_token]
   name       = "get_parameters"
   role       = aws_iam_role.get_parameters.name
-}*/
+}
