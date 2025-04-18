@@ -11,7 +11,7 @@ sudo ./aws/install
 sleep 100
 
 # Get Master Private IP (from Terraform or Metadata)
-MASTER_PRIVATE_IPV4="${master_private_ip}"
+MASTER_PRIVATE_IPV4="${MASTER_PRIVATE_IPV4}"
 REGION="${REGION}"  # Update the region if needed
 
 # Wait for Kubernetes API to be available
