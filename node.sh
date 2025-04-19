@@ -8,14 +8,14 @@ sudo apt install -y curl unzip
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 unzip awscliv2.zip
 sudo ./aws/install
-sleep 100
+sleep 10
 
 # Get Master Private IP (from Terraform or Metadata)
-export master_private_ip="${master_private_ip}"
-export region="${region}"  # Update the region if needed
+export MASTER_PRIVATE_IP="${aws_instance.master.private_ip}"
+export REGION="eu-north-1"  # Update the region if needed
 
 # Wait for Kubernetes API to be available
 sleep 380
 
-export K3S_TOKEN_SSM="$(aws ssm get-parameters --names k3s_token --query 'Parameters[0].Value' --output text --region ${region})"
-curl -sfL https://get.k3s.io | K3S_URL=https://${master_private_ip}:6443 K3S_TOKEN=$K3S_TOKEN_SSM sh -
+export K3S_TOKEN_SSM="$(aws ssm get-parameters --names k3s_token --query 'Parameters[0].Value' --output text --region ${REGION})"
+curl -sfL https://get.k3s.io | K3S_URL=https://${MASTER_PRIVATE_IP}:6443 K3S_TOKEN=$K3S_TOKEN_SSM sh -

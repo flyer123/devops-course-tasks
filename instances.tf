@@ -1,4 +1,4 @@
-/*# NAT-instance ami
+# NAT-instance ami
 data "aws_ami" "amzn_linux_2023_ami" {
   most_recent = true
   owners      = ["amazon"]
@@ -79,7 +79,7 @@ resource "aws_instance" "node" {
   key_name               = var.ec2_key_name
 
 
-  user_data = data.template_file.node.rendered
+  user_data = file("./node.sh")
 
 
   iam_instance_profile = aws_iam_instance_profile.k3s_node.name
@@ -244,4 +244,4 @@ resource "aws_iam_instance_profile" "k3s_node" {
   depends_on = [aws_ssm_parameter.k3s_token]
   name       = "get_parameters"
   role       = aws_iam_role.get_parameters.name
-}*/
+}
