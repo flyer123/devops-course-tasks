@@ -8,6 +8,7 @@ data "aws_ami" "amzn_linux_2023_ami" {
   }
 }
 
+# NAT instance
 resource "aws_instance" "nat_aws_instance" {
   ami                         = data.aws_ami.amzn_linux_2023_ami.id
   instance_type               = "t3.micro"
@@ -189,7 +190,7 @@ resource "aws_iam_instance_profile" "k3s_master" {
 
 # node template definition
 data "template_file" "node" {
-  template   = file("./node.sh.tmpl")
+  template   = file("./node.sh")
   depends_on = [aws_instance.master]
   vars = {
     master_private_ip = aws_instance.master.private_ip
