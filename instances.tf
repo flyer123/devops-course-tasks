@@ -1,4 +1,4 @@
-# NAT-instance ami
+/*# NAT-instance ami
 data "aws_ami" "amzn_linux_2023_ami" {
   most_recent = true
   owners      = ["amazon"]
@@ -184,14 +184,14 @@ resource "aws_iam_instance_profile" "k3s_master" {
   role       = aws_iam_role.put_parameters.name
 }
 
-/*data "template_file" "node" {
+data "template_file" "node" {
   template   = file("./node.sh.tmpl")
   depends_on = [aws_instance.master]
   vars = {
     master_private_ip = aws_instance.master.private_ip
     region            = "eu-north-1"
   }
-}*/
+}
 
 
 # node role to get tocken form ssm
@@ -244,4 +244,4 @@ resource "aws_iam_instance_profile" "k3s_node" {
   depends_on = [aws_ssm_parameter.k3s_token]
   name       = "get_parameters"
   role       = aws_iam_role.get_parameters.name
-}
+}*/
