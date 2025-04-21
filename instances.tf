@@ -116,10 +116,10 @@ resource "aws_instance" "bastion_host_instance" {
 
 # ssm_parameter
 resource "aws_ssm_parameter" "k3s_token" {
-  name  = "k3s_token"
-  value = "empty"
-  type  = "String"
-  overwrite   = true
+  name      = "k3s_token"
+  value     = "empty"
+  type      = "String"
+  overwrite = true
 
   lifecycle {
     ignore_changes = [value]
