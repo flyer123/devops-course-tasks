@@ -61,7 +61,11 @@ jobs:
     - name: show 
       run: terraform show 
     - name: output ip addr
-      run: |
-        terraform output master_private_ip
-        echo {TEST} = {terraform output master_private_ip} >> "$GITHUB_ENV"
-        echo "$TEST"
+      run: terraform output master_private_ip
+    - name: Get output of master ip addr and save it to file
+      run: terraform output -raw master_private_ip > master_private_ip.txt
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: tf-output
+        path: master_private_ip.txt
