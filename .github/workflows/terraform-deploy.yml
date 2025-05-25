@@ -58,5 +58,10 @@ jobs:
       run: terraform state list
     - name: refresh
       run: terraform refresh
-    - name: show
-      run: terraform show
+    - name: show 
+      run: terraform show 
+    - name: output ip addr
+      run: |
+        terraform output master_ip_addr
+        echo {TEST} = {terraform output master_ip_addr} >> "$GITHUB_ENV"
+        echo "$TEST"
