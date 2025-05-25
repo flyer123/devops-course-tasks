@@ -127,11 +127,6 @@ resource "aws_ssm_parameter" "k3s_token" {
 }
 
 
-# output of ip of k3s master
-output "master_private_ip" {
-  depends_on = [aws_instance.master]
-  value      = aws_instance.master.private_ip
-}
 
 # put parameters role for master
 resource "aws_iam_role" "put_parameters" {
