@@ -60,17 +60,17 @@ jobs:
       run: terraform refresh
     - name: show 
       run: terraform show 
-    - name: Get output of master ip addr and save it to file
-      run: terraform output -raw master_private_ip > master_private_ip.txt
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: tf-output-master-ip
-        path: master_private_ip.txt
-    - name: Get output of bastion host ip addr and save it to file
-      run: terraform output -raw master_private_ip > bastion_public_ip.txt
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: tf-output-bastion-ip
-        path: bastion_public_ip.txt
+    # - name: Get output of master ip addr and save it to file
+    #   run: terraform output -raw master_private_ip > master_private_ip.txt
+    # - name: Upload artifact
+    #   uses: actions/upload-artifact@v4
+    #   with:
+    #     name: tf-output-master-ip
+    #     path: master_private_ip.txt
+    # - name: Get output of bastion host ip addr and save it to file
+    #   run: terraform output -raw master_private_ip > bastion_public_ip.txt
+    # - name: Upload artifact
+    #   uses: actions/upload-artifact@v4
+    #   with:
+    #     name: tf-output-bastion-ip
+    #     path: bastion_public_ip.txt
