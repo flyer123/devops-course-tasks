@@ -7,17 +7,32 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Download bastion-host ip
         uses: actions/download-artifact@v4
         with:
           name: tf-output-bastion-ip
           path: ./output
+      
+      - name: Download k3s master ip
+        uses: actions/download-artifact@v4
+        with:
+          name: tf-output-master-ip
+          path: ./output
+
       - name:
         id: bastion-ip-output
         run: |
           BASTION_IP=$(cat ./output/bastion_public_ip.txt | tr -d '\n')
           echo "bastion_ip=$BASTION_IP" >> "$GITHUB_OUTPUT"
+      - name: Use Output bastion ip
+        run: echo "Bastion IP address is ${{ steps.bastion-ip-output.outputs.bastion_ip }}"
 
-      - name: Use Output
-        run: echo "Terraform output was ${{ steps.bastio-nip-output.outputs.bastion_ip }}"
+      - name:
+        id: k3s-master-output
+        run: |
+          MASTER_IP=$(cat ./output/master_private_ip.txt | tr -d '\n')
+          echo "master_ip=$MASTER_IP" >> "$GITHUB_OUTPUT"
+      - name: Use Output master ip
+        run: echo "K3S master IP address is ${{ steps.k3s-master-output.outputs.master_ip }}"
 
