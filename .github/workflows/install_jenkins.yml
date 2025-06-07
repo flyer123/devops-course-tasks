@@ -10,8 +10,8 @@ jobs:
       - name: Download bastion-host ip
         uses: actions/download-artifact@v4
         with:
-          name: get bastion-ip
-          path: bastion_public_ip.txt
+          name: tf-output-bastion-ip
+          path: ./output
       - name:
         id: bastion-ip-output
         run: |
