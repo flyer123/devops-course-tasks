@@ -1,0 +1,23 @@
+on:
+  workflow_dispatch:
+jobs:
+  show-output:
+    runs-on: ubuntu-22.04
+    name: get bastion-host ip and k3-master ip
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Download bastion-host ip
+        uses: actions/download-artifact@v4
+        with:
+          name: get bastion-ip
+          path: bastion_public_ip.txt
+      - name:
+        id: bastion-ip-output
+        run: |
+          BASTION_IP=$(cat ./output/bastion_public_ip.txt | tr -d '\n')
+          echo "bastion_ip=$BASTION_IP" >> "$GITHUB_OUTPUT"
+
+      - name: Use Output
+        run: echo "Terraform output was ${{ steps.bastio-nip-output.outputs.bastion_ip }}"
+
