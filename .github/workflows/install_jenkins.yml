@@ -1,5 +1,10 @@
 on:
   workflow_dispatch:
+    inputs:
+      workflow_run_id:
+        description: 'id of a deploy workflow'
+        required: true
+        type: string
 jobs:
   show-output:
     runs-on: ubuntu-22.04
@@ -13,12 +18,16 @@ jobs:
         with:
           name: tf-output-bastion-ip
           path: ./output
+          run-id: ${{ github.event.inputs.workflow_run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Download k3s master ip
         uses: actions/download-artifact@v4
         with:
           name: tf-output-master-ip
           path: ./output
+          run-id: ${{ github.event.inputs.workflow_run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name:
         id: bastion-ip-output
