@@ -23,7 +23,7 @@ jobs:
     - name: install python
       run: |
         sudo apt-get install python3-pip
-        pip3 install boto3
+        pipx inject ansible-core boto3 botocore
     - name: install aws inventory
       run: |
         ansible-galaxy collection install amazon.aws
