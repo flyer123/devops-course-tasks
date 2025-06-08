@@ -4,7 +4,7 @@ on:
 jobs:
   install-jenkins:
     runs-on: ubuntu-22.04
-    name: k3-master ip and install jenkins
+    name: install jenkins and nginx
     permissions:
       id-token: write
     steps:
