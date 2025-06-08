@@ -23,5 +23,11 @@ jobs:
     - name: install aws inventory
       run: |
         ansible-galaxy collection install amazon.aws
-
+    - name: get info from ec2 instances
+      run: |
+        ansible-inventory -i my_inv.aws_ec2.yaml --list
+        K3SMASTER_IP = $(jq -r '.["_meta"].hostvars[] | select(.tags.Name == "K3s_Master_instance") | .private_ip_address' inventory.json)
+        echo "k3s master IP is: $K3SMASTER_IP"
+        BASTION_HOST_IP = $(jq -r '.["_meta"].hostvars[] | select(.tags.Name == "K3s_Master_instance") | .public_ip_address' inventory.json)
+        echo "k3s master IP is: $BASTION_HOST_IP"
  

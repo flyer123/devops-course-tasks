@@ -2,5 +2,10 @@ plugin: aws_ec2
 regions:
   - eu-north-1
 filters:
-  tag.Name:
-    K3s_Master_instance
+  instance-state-name: running
+keyed_groups:
+  - key: tags.Name
+    prefix: name
+hostnames:
+  - public-ip-address
+  - private-ip-address
