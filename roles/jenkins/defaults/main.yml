@@ -1,0 +1,16 @@
+---
+admin_passwd: "admin"
+
+service_type: NodePort
+nodeport: 32080
+
+persistence:
+    enabled: yes
+    existingClaim: jenkins-pvc
+
+jenkins_installed_plugins: {kubernetes, workflow-aggregator, git, configuration-as-code, credentials-binding}
+
+jenkins_req_cpu: "500m"
+jenkins_req_mem: "512Mi"
+jenkins_lim_cpu: "1"
+jenkins_lim_mem: "1024Mi"

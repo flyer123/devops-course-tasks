@@ -1,47 +1,27 @@
 on:
   workflow_dispatch:
-    inputs:
-      workflow_run_id:
-        description: 'id of a deploy workflow'
-        required: true
-        type: string
+    
 jobs:
-  show-output:
+  install-jenkins:
     runs-on: ubuntu-22.04
-    name: get bastion-host ip and k3-master ip
+    name: k3-master ip and install jenkins
+    permissions:
+      id-token: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+    - name: Configure Aws Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-region: eu-north-1
+        role-to-assume: arn:aws:iam::222896848746:role/GithubActionsRole
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: install ansible
+      run: |
+        sudo apt-add-repository ppa:ansible/ansible
+        sudo apt update
+        sudo apt install ansible
+    - name: install aws inventory
+      run: |
+        ansible-galaxy collection install amazon.aws
 
-      - name: Download bastion-host ip
-        uses: actions/download-artifact@v4
-        with:
-          name: tf-output-bastion-ip
-          path: bastion_public_ip.txt
-          run-id: ${{ github.event.inputs.workflow_run_id }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Download k3s master ip
-        uses: actions/download-artifact@v4
-        with:
-          name: tf-output-master-ip
-          path: master_private_ip.txt
-          run-id: ${{ github.event.inputs.workflow_run_id }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name:
-        id: bastion-ip-output
-        run: |
-          BASTION_IP=$(cat ./output/bastion_public_ip.txt | tr -d '\n')
-          echo "bastion_ip=$BASTION_IP" >> "$GITHUB_OUTPUT"
-      - name: Use Output bastion ip
-        run: echo "Bastion IP address is ${{ steps.bastion-ip-output.outputs.bastion_ip }}"
-
-      - name:
-        id: k3s-master-output
-        run: |
-          MASTER_IP=$(cat ./output/master_private_ip.txt | tr -d '\n')
-          echo "master_ip=$MASTER_IP" >> "$GITHUB_OUTPUT"
-      - name: Use Output master ip
-        run: echo "K3S master IP address is ${{ steps.k3s-master-output.outputs.master_ip }}"
-
+ 

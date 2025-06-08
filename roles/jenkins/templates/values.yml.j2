@@ -1,0 +1,16 @@
+controller:
+  adminPassword: {{ admin_passwd }}
+  serviceType: {{ service_type }}
+  nodePort: {{ nodeport }}
+  persistence:
+    enabled: {{ persistence.enabled }}
+    existingClaim: {{ jenkins-claim }}
+  installPlugins: {{ jenkins_installed_plugins }}
+  
+  resources:
+    requests:
+      cpu: {{ jenkins_req_cpu }}
+      memory: {{ jenkins_req_mem }}
+    limits:
+      cpu: {{ jenkins_lim_cpu }}
+      memory: {{ jenkins_lim_mem }}

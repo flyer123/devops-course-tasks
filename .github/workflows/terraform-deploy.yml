@@ -68,7 +68,7 @@ jobs:
     #     name: tf-output-master-ip
     #     path: master_private_ip.txt
     # - name: Get output of bastion host ip addr and save it to file
-    #   run: terraform output -raw master_private_ip > bastion_public_ip.txt
+    #   run: terraform output -raw bastion_public_ip > bastion_public_ip.txt
     # - name: Upload artifact
     #   uses: actions/upload-artifact@v4
     #   with:

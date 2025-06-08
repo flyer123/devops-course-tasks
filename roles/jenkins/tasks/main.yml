@@ -1,0 +1,30 @@
+---
+- name: Create temporary file
+  tempfile:
+    suffix: .helm_values.yml
+  register: helm_values_file
+
+- name: Templating Helm Values file
+  template:
+    src: values.yml.j2
+    dest: "{{ helm_values_file.path }}"
+
+- name: Add Helm repository
+  command: helm repo add jenkinsci https://charts.jenkins.io
+  changed_when: False
+
+- name: Update Helm repository
+  command: helm repo update
+  changed_when: False
+
+- name: Deploy using Helm
+  command: >-
+    helm upgrade jenkins jenkinsci/jenkins
+    --install
+    --create-namespace
+    --namespace {{ jenkins_namespace }}
+    --version {{ jenkins_chart_version }}
+    --values {{ helm_values_file.path }}
+  register: shellout
+  failed_when: "(shellout.rc != 0) and ('cannot re-use a name that is still in use' not in shellout.stderr)"
+  changed_when: "'Installing it now' or 'has been upgraded' in shellout.stdout"

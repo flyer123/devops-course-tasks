@@ -1,0 +1,7 @@
+---
+- name: Install jenkins
+  hosts: K3s_Master_instance
+  tasks:
+    - name: "Deploy Jenkins"
+      include_role:
+        name: jenkins
