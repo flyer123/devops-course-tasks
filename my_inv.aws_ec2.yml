@@ -3,7 +3,8 @@ regions:
   - eu-north-1
 filters:
   instance-state-name: running
-  tag.Name:
-    K3s_Master_instance
+keyed_groups:
+  - key: tags.Name
+    prefix: name
 hostnames:
   - private-ip-address
