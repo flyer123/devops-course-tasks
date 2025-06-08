@@ -4,7 +4,7 @@ on:
 jobs:
   install-jenkins:
     runs-on: ubuntu-22.04
-    name: install jenkins and nginx
+    name: install jenkins
     permissions:
       id-token: write
     steps:
@@ -25,9 +25,7 @@ jobs:
         ansible-galaxy collection install amazon.aws
     - name: get info from ec2 instances
       run: |
-        ansible-inventory -i my_inv.aws_ec2.yaml --list
-        K3SMASTER_IP = $(jq -r '.["_meta"].hostvars[] | select(.tags.Name == "K3s_Master_instance") | .private_ip_address' inventory.json)
+        K3SMASTER_IP = $(ansible-inventory -i aws_ec2.yaml --list | jq -r '.["_meta"].hostvars | to_entries[] | select(.value.tags.Name == "K3s_Master_instance") | .value.private_ip_address')
         echo "k3s master IP is: $K3SMASTER_IP"
-        BASTION_HOST_IP = $(jq -r '.["_meta"].hostvars[] | select(.tags.Name == "K3s_Master_instance") | .public_ip_address' inventory.json)
+        BASTION_HOST_IP = $(ansible-inventory -i aws_ec2.yaml --list | jq -r '.["_meta"].hostvars | to_entries[] | select(.value.tags.Name == "bastion_host_instance") | .value.private_ip_address')
         echo "k3s master IP is: $BASTION_HOST_IP"
- 

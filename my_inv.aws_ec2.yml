@@ -7,5 +7,4 @@ keyed_groups:
   - key: tags.Name
     prefix: name
 hostnames:
-  - public-ip-address
   - private-ip-address
