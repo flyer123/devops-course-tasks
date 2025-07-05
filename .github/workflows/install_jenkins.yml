@@ -37,9 +37,17 @@ jobs:
       run: |
         echo "test ##################################"
         ansible-inventory -i aws_ec2.yml --graph
+    - name: Disable key checking in ansible
+      run: |
+        export ANSIBLE_HOST_KEY_CHECKING=False
+    - name: Set up SSH key
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.DEVOPS_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
     - name: install nginx on bastion host test run
       run: |
-        ansible-playbook -i aws_ec2.yml bastion_playbook.yml --check
+        ansible-playbook -i aws_ec2.yml bastion_playbook.yml --private-key ~/.ssh/id_rsa --extra-vars "ansible_user=ec2-user" --check
     - name: install nginx on bastion host
       run: |
-        ansible-playbook -i aws_ec2.yml bastion_playbook.yml
+        ansible-playbook -i aws_ec2.yml bastion_playbook.yml --private-key ~/.ssh/id_rsa --extra-vars "ansible_user=ec2-user"
