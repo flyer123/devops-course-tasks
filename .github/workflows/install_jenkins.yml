@@ -33,3 +33,7 @@ jobs:
         echo "k3s master IP is: $K3SMASTER_IP"
         BASTION_HOST_IP=$(ansible-inventory -i my_inv.aws_ec2.yml --list | jq -r '.["_meta"].hostvars | to_entries[] | select(.value.tags.Name == "bastion_host_instance") | .value.private_ip_address')
         echo "bastion host IP is: $BASTION_HOST_IP"
+    - name: get info from ec2 instances test
+      run: |
+        echo "test ##################################"
+        ansible-inventory -i aws_ec2.yml --graph
