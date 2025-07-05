@@ -1,0 +1,12 @@
+---
+- name: Install nginx
+  hosts: name_bastion_host_instance
+  tasks:
+    - name: install nginx
+      dnf:
+        name: nginx
+        state: present
+    - name: start nginx
+      service:
+        name: nginx
+        state: started
