@@ -1,6 +1,6 @@
 on:
   workflow_dispatch:
-  #push:
+  push:
 jobs:
   terraform-check:
     runs-on: ubuntu-22.04
