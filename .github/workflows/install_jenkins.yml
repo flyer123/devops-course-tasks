@@ -41,7 +41,7 @@ jobs:
         echo "test ##################################"
         ansible-inventory -i aws_ec2.yml --graph
     - name: get private ip of k3s master
-      run: |
+      shell: |
         export K3S_MASTER_IP={{ hostvars['tag_K3s_Master_instance']['private_ip_address'] }}
     - name: display ks3 master private ip address
       run: |
