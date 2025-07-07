@@ -29,7 +29,7 @@ jobs:
         ansible-galaxy collection install amazon.aws
     - name: display inventory
       run: |
-        ansible-inventory -i aws aws_ec2.yml --list --yaml
+        ansible-inventory -i aws_ec2.yml --list --yaml
     # - name: get info from ec2 instances
     #   run: |
     #     K3SMASTER_IP=$(ansible-inventory -i my_aws_ec2.yml --list | jq -r '.["_meta"].hostvars | to_entries[] | select(.value.tags.Name == "K3s_Master_instance") | .value.private_ip_address')
