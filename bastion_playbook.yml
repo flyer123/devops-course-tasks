@@ -1,6 +1,6 @@
 ---
 - name: Install nginx
-  hosts: name_bastion_host_instance
+  hosts: tag_bastion_host_instance
   become: true
   tasks:
     - name: install nginx

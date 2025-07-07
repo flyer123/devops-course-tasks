@@ -27,9 +27,9 @@ jobs:
     - name: install aws inventory
       run: |
         ansible-galaxy collection install amazon.aws
-    - name: display inventory
-      run: |
-        ansible-inventory -i aws_ec2.yml --list --yaml
+    # - name: display inventory
+    #   run: |
+    #     ansible-inventory -i aws_ec2.yml --list --yaml
     # - name: get info from ec2 instances
     #   run: |
     #     K3SMASTER_IP=$(ansible-inventory -i my_aws_ec2.yml --list | jq -r '.["_meta"].hostvars | to_entries[] | select(.value.tags.Name == "K3s_Master_instance") | .value.private_ip_address')
@@ -40,6 +40,12 @@ jobs:
       run: |
         echo "test ##################################"
         ansible-inventory -i aws_ec2.yml --graph
+    - name: get private ip of k3s master
+      run: |
+        export K3S_MASTER_IP={{ hostvars['tag_K3s_Master_instance']['private_ip_address'] }}
+    - name: display ks3 master private ip address
+      run: |
+        echo {{ k3S_MASTER_IP }}
     # - name: Disable key checking in ansible
     #   run: |
     #     export ANSIBLE_HOST_KEY_CHECKING=False
